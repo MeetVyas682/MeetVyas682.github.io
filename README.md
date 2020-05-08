@@ -1,2 +1,2 @@
-# MeetVyas682.github.io
+# meetvyas682.github.io
 Learning to create website.....
