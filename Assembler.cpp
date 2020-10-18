@@ -411,7 +411,10 @@ int main (void){
         cout << word << endl ;
         if (word[word.length()-1] == ':'){
         }
-
+        else if (word[0] == '#'){
+            string str ;
+            getline(fin,str) ;
+        }
         else {
             if (Type_func(word) == 2) {             // R type
                 string op = "000000" ;
@@ -548,8 +551,15 @@ int main (void){
                     string reg_3 ;
                     fin >> reg_3 ;
                     instruction += (reg_3 + " " );
-                    int int_reg_3 = stoi(reg_3) ;
-                    add_ress = bit_generate(int_reg_3,16) ; 
+                    if (reg_3[0] == '-'){
+                        int int_reg_3 = stoi(reg_3.substr(1,reg_3.length()-1)) ;
+                        // fout << int_reg_3 << endl;
+                        add_ress = bit_generate(int_reg_3,15) ; 
+                        add_ress = "1" + add_ress ;
+                    }
+                    else {
+                        int int_reg_3 = stoi(reg_3) ;
+                        add_ress = bit_generate(int_reg_3,16) ; }
                     // cout << op << " " << rs << " " << rt << " " << add_ress << " " << instruction;
                 }
 

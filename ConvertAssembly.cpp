@@ -188,11 +188,13 @@ string BTD_SA (string str,int leng){
     int i = leng - 1 ; 
     int mul = 1 ;
     int ans = 0 ;
-    for (;i>-1;i--){
+    for (;i>0;i--){
         if (str[i] == '1')
             ans += mul ;
         mul *= 2 ;
     }
+    if (str[0] == '1')
+        ans = (-1)*ans ;
    return to_string(ans) ;
 }
 int main (void){
