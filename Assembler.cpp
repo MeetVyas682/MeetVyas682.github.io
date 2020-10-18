@@ -571,9 +571,10 @@ int main (void){
 
     }
 
+    fin.close();
+    fout.close();
+    return 0;
+
     // cout << bit_generate(16, 9) ;
-
-    
-
 
 }
