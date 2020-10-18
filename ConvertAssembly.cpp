@@ -184,8 +184,8 @@ string register_name(string register_code){
 // above returns register name based on register code
 
 
-string BTD_SA (string str){
-    int i = 4 ; 
+string BTD_SA (string str,int leng){
+    int i = leng - 1 ; 
     int mul = 1 ;
     int ans = 0 ;
     for (;i>-1;i--){
@@ -255,7 +255,7 @@ int main (void){
                 instructio += (reg_rd + ", ");
                 string reg_rt  = register_name(code_bina.substr(11,5)) ;
                 instructio += (reg_rt + ", ");
-                string shamt_dec = BTD_SA (code_bina.substr(21,5)) ;
+                string shamt_dec = BTD_SA (code_bina.substr(21,5),5) ;
                 instructio += shamt_dec ;
             }
 
@@ -282,6 +282,40 @@ int main (void){
 
             fout << instructio << endl ;
         }
+
+        else if (Find_opcode_reverse(code_bina.substr(0,6)) == "beq"  || Find_opcode_reverse(code_bina.substr(0,6)) == "bne" ){
+            string instructio  = "" ;
+            string funct_ = Find_opcode_reverse(code_bina.substr(0,6));
+            instructio += (funct_ + " ") ;
+            string reg_rs  = register_name(code_bina.substr(6,5)) ;
+            instructio += (reg_rs + ", ");
+            string reg_rt  = register_name(code_bina.substr(11,5)) ;
+            instructio += (reg_rt + ", ") ;
+            
+            instructio += "Function at 26-bit address: ";
+            instructio += code_bina.substr(16,16) ;
+
+            fout << instructio << endl ;
+        }
+
+        else if (Find_opcode_reverse(code_bina.substr(0,6)) == "subu"  || Find_opcode_reverse(code_bina.substr(0,6)) == "sw" ){
+            string funct_ = Find_opcode_reverse(code_bina.substr(0,6)) ;
+            if (Find_opcode_reverse(code_bina.substr(0,6)) == "subu")
+                funct_ = "lw" ;
+            string instructio  = "" ;
+            instructio += (funct_ + " ") ;
+            string reg_rt  = register_name(code_bina.substr(11,5)) ;
+            instructio += (reg_rt + ", ") ;
+
+            string imm = BTD_SA(code_bina.substr(16,16),16) ;
+            instructio += (imm + "(") ;
+            string reg_rs  = register_name(code_bina.substr(6,5)) ;
+            instructio += (reg_rs + ")");
+            fout << instructio << endl ;
+
+
+        }
+
 
     }
 
