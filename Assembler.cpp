@@ -188,6 +188,8 @@ string Find_opcode(string instruction) {
 
      else if(instruction == "lw")
         return "100011" ;
+
+    return "NULL" ;
 }
 // Find_opcode works
 
@@ -279,6 +281,8 @@ string register_code(string register_name){
 
     else if(register_name == "$ra" || register_name == "$ra,")
         return "11111" ;
+
+    return "NULL" ;
 }
 // register_code works properly
 
@@ -349,6 +353,15 @@ string bit_generate (int Number, int num_bits){
 }
 // The above function works , input number and number of desired bits
 
+int FInd_in_vc (string reg_name,vector <string> procedures){
+    int i = 0 ;
+    for (;i<procedures.size();i++){
+        if (reg_name == procedures[i])
+            break ;
+    }
+
+    return i ;
+}
 
 int main (void){
     string sub_folder = "sample_data/";
@@ -467,6 +480,7 @@ int main (void){
                 string rt  ;
                 string add_ress ;
                 string instruction = word + " ";
+                op = Find_opcode(word) ;
                 if (word == "beq" || word == "bne"){
                     string reg_1 ;
                     fin >> reg_1 ;
@@ -477,13 +491,68 @@ int main (void){
                     rs = register_code(reg_1) ;
                     rt = register_code(reg_2) ;
                     // add_ress for 
+                    string reg_3 ;
+                    fin >> reg_3 ;
+                    instruction += (reg_3 + " " );
+                    reg_3.push_back(':') ;
+                    int function_in_vector = FInd_in_vc (reg_3,procedures) ;
+                    add_ress = bit_generate(function_in_vector,16) ;
                 }
+                // cout << op << " " << rs << " " << rt << " " << add_ress ;
+
+                else if (word == "lw" || word == "sw"){
+                    string reg_1 ;
+                    fin >> reg_1 ;
+                    instruction += (reg_1 + " " );
+                    rt = register_code(reg_1) ;
+                    string reg_2 ;
+                    fin >> reg_2 ;
+                    instruction += (reg_2+ " " );
+
+                    string reg_3 ;  // integer offset
+                    int i = 0 ;
+                    while (reg_2[i] != '('){
+                        reg_3.push_back(reg_2[i]) ;
+                        i++ ;                                     
+                    }
+                    string reg_4 ;  // regiser inside brackets
+                    reg_4.push_back(reg_2[i+1]) ;
+                    reg_4.push_back(reg_2[i+2]) ;
+                    reg_4.push_back(reg_2[i+3]) ;
+                    // cout << reg_4 << endl ;
+                    int before_brac = stoi(reg_3) ;
+                    add_ress = bit_generate(before_brac,16) ;
+                    rs = register_code(reg_4) ;
+                    // cout << op << " " << rs << " " << rt << " " << add_ress << " " << instruction;
+                }
+
+                else {
+                    string reg_1 ;
+                    fin >> reg_1 ;
+                    instruction += (reg_1 + " " );
+                    rt = register_code(reg_1) ;
+
+                    string reg_2 ;
+                    fin >> reg_2 ;
+                    instruction += (reg_2 + " " );
+                    rs = register_code(reg_2) ;
+
+                    string reg_3 ;
+                    fin >> reg_3 ;
+                    instruction += (reg_3 + " " );
+                    int int_reg_3 = stoi(reg_3) ;
+                    add_ress = bit_generate(int_reg_3,16) ; 
+                    // cout << op << " " << rs << " " << rt << " " << add_ress << " " << instruction;
+                }
+
+                string hexa_code = to_hexa_dec(op + rs + rt + add_ress) ;
+                fout << op <<  rs << rt << add_ress << " (" << hexa_code << ", " << instruction << ")\n" ;
             }
         }
 
     }
 
-    cout << bit_generate(16, 9) ;
+    // cout << bit_generate(16, 9) ;
 
     
 
