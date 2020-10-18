@@ -1,0 +1,24 @@
+#Following is the C code for the assembly code
+#int gcd(int a, int b)
+#{
+#while (a != b) {
+#if (a > b) a = a - b;
+#else b = b - a;
+#}
+#return a;
+#}
+# a is stored in $a0 and b in $a1
+
+#assembly code
+gcd:
+    beq $a0, $a1, L2        # if a==b, go to exit
+    slt $v0, $a1, $a0       # if b>a?
+    bne $v0, $zero, L1      # yes, goto L1
+    subu $a1, $a1, $a0      # subtract b from a (b<a)
+    beq $zero, $zero, gcd   #repeat
+L1:
+    subu $a0, $a0, $a1      #subtract a from b (a<b)
+    beq $zero, $zero, gcd   #repeat
+L2:
+    add $v0, $zero, $a0     #return a
+    jr $ra                  #return to caller
