@@ -227,6 +227,8 @@ int main (void){
 
     string code_bina ;
     while (fin >> code_bina){
+        if (code_bina.length() != 32)
+            continue ;
         if (code_bina.substr(0,6) == "000000"){
             string instructio  = "" ;
             string funct_ = Find_opcode_reverse(code_bina.substr(26,6));
@@ -292,7 +294,7 @@ int main (void){
             string reg_rt  = register_name(code_bina.substr(11,5)) ;
             instructio += (reg_rt + ", ") ;
             
-            instructio += "Function at 26-bit address: ";
+            instructio += "Function at 16-bit address: ";
             instructio += code_bina.substr(16,16) ;
 
             fout << instructio << endl ;
@@ -313,6 +315,21 @@ int main (void){
             instructio += (reg_rs + ")");
             fout << instructio << endl ;
 
+
+        }
+
+        else {
+            string funct_ = Find_opcode_reverse(code_bina.substr(0,6)) ;
+            string instructio  = "" ;
+            instructio += (funct_ + " ") ;
+            string reg_rt  = register_name(code_bina.substr(11,5)) ;
+            instructio += (reg_rt + ", ") ;
+            string reg_rs  = register_name(code_bina.substr(6,5)) ;
+            instructio += (reg_rs + ", ");
+            string imm = BTD_SA(code_bina.substr(16,16),16) ;
+            instructio += imm ;
+
+            fout << instructio << endl ;      
 
         }
 

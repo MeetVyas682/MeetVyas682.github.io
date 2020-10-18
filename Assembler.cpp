@@ -397,12 +397,19 @@ int main (void){
      // Output file is fout
 
     string word ;                      // Word will work as an extracting variable. It will extract file word by word
-    
+    string func_finder ;
     vector <string> procedures ;        // vector to store the procedures
+
+    while (fin >> func_finder){
+       if (func_finder[func_finder.length()-1] == ':'){
+            procedures.push_back(func_finder) ;
+        }
+    }
+    fin.close() ;
+    fin.open(input_file.c_str());
     while (fin >> word){
         cout << word << endl ;
         if (word[word.length()-1] == ':'){
-            procedures.push_back(word) ;
         }
 
         else {

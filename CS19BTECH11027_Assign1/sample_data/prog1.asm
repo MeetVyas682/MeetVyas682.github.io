@@ -1,15 +1,3 @@
-#Following is the C code for the assembly code
-#int gcd(int a, int b)
-#{
-#while (a != b) {
-#if (a > b) a = a - b;
-#else b = b - a;
-#}
-#return a;
-#}
-# a is stored in $a0 and b in $a1
-
-#assembly code
 gcd:
     beq $a0, $a1, L2        # if a==b, go to exit
     slt $v0, $a1, $a0       # if b>a?
