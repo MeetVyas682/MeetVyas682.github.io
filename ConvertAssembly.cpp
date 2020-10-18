@@ -271,6 +271,18 @@ int main (void){
             fout << instructio << endl ;
         }
         
+        else if (Find_opcode_reverse(code_bina.substr(0,6)) == "srl"  || Find_opcode_reverse(code_bina.substr(0,6)) == "jal" ){
+            string funct_ = Find_opcode_reverse(code_bina.substr(0,6)) ;
+            if (funct_ == "srl")
+                funct_ = "j" ;
+            string instructio  = "" ;
+            instructio += (funct_ + " ") ;
+            instructio += "Function at 26-bit address: ";
+            instructio += code_bina.substr(6,26) ;
+
+            fout << instructio << endl ;
+        }
+
     }
 
 
