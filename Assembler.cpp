@@ -552,7 +552,8 @@ int main (void){
                     fin >> reg_3 ;
                     instruction += (reg_3 + " " );
                     if (reg_3[0] == '-'){
-                        int int_reg_3 = stoi(reg_3.substr(1,reg_3.length()-1)) ;
+                        string n_q = reg_3.substr(1,(reg_3.length()-1)) ;
+                        int int_reg_3 = stoi(n_q) ;
                         // fout << int_reg_3 << endl;
                         add_ress = bit_generate(int_reg_3,15) ; 
                         add_ress = "1" + add_ress ;

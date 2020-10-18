@@ -5,8 +5,8 @@ LCD:
     sw $t0, 8($sp)
     sw $s1, 4($sp)
     sw $s0, 0($sp)
-    addi $s0, $zero, $a0
-    addi $s1, $zero, $a1
+    addi $s0, $zero, 18
+    addi $s1, $zero, -17
     beq $a0, $a1, L2        
     slt $v0, $a1, $a0       
     bne $v0, $zero, L1      

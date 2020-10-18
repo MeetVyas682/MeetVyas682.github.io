@@ -1,19 +1,13 @@
 # C code
-# for (i=0; i<N; i++) {
-#        A[i] = MAX_SIZE;
+# i = N*N + 3*N
 
 
 # MIPS
-    }
-add    $t0, $gp, $zero          # &A[0] - 28
-    lw     $t1, 4($gp)          # fetch N
-    sll    $t1, $t1, 2          # N as byte offset
-    add    $t1, $t1, $gp        # &A[N] - 28
-    ori    $t2, $zero, 256      # MAX_SIZE
-top:
-    sltu   $t3, $t0, $t1        # have we reached the final address?
-    beq    $t3, $zero, done     # yes, we're done
-    sw     $t2, 28($t0)         # A[i] = 0
-    addi   $t0, $t0, 4          # update $t0 to point to next element
-    j      top                  # go to top of loop
-done:
+
+lw $t0, 4($gp)       # fetch N
+mult $t0, $t0, $t0     # N*N
+lw $t1, 4($gp)       # fetch N
+ori $t2, $zero, 3     # 3
+mult $t1, $t1, $t2     # 3*N
+add $t2, $t0, $t1     # N*N + 3*N
+sw $t2, 0($gp)       # i = ...
