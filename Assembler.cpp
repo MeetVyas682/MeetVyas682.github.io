@@ -400,6 +400,7 @@ int main (void){
     
     vector <string> procedures ;        // vector to store the procedures
     while (fin >> word){
+        cout << word << endl ;
         if (word[word.length()-1] == ':'){
             procedures.push_back(word) ;
         }
@@ -547,6 +548,24 @@ int main (void){
 
                 string hexa_code = to_hexa_dec(op + rs + rt + add_ress) ;
                 fout << op <<  rs << rt << add_ress << " (" << hexa_code << ", " << instruction << ")\n" ;
+            }
+
+            else if (Type_func(word) == 1){
+                string op  ;
+                string add_ress ;
+                string instruction = word + " ";
+                op = Find_opcode(word) ;
+
+                string reg_3 ;
+                fin >> reg_3 ;
+                instruction += (reg_3 + " " );
+                reg_3.push_back(':') ;
+                int function_in_vector = FInd_in_vc (reg_3,procedures) ;
+                add_ress = bit_generate(function_in_vector,26) ;
+                // cout << op << " " << add_ress << " " ;
+                // cout << instruction << endl ;
+                string hexa_code = to_hexa_dec(op + add_ress) ;
+                fout << op << add_ress << " (" << hexa_code << ", " << instruction << ")\n" ;
             }
         }
 

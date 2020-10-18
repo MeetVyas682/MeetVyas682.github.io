@@ -1,1 +1,4 @@
-addi $t1, $t2, 7 
+max:
+else:
+quw:
+jal else
