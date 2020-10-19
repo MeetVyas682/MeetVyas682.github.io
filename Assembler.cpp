@@ -390,13 +390,13 @@ int main (void){
     output_file = sub_folder + filename + "bin.txt" ;
     fout.open(output_file.c_str());
     if (fin.is_open())
-        cout << "Yes" << endl;
+        cout << "fin is open" << endl;
 
     else
-        cout << "No" << endl;
+        cout << "fin is not open" << endl;
 
     if (fout.is_open())
-        cout << "fout yes" << endl ;
+        cout << "fout is in " << output_file << endl ;
 
     else
         cout << "No fout" ;
@@ -418,7 +418,7 @@ int main (void){
     fin.close() ;
     fin.open(input_file.c_str());
     while (fin >> word){
-        cout << word << endl ;
+        // cout << word << endl ;
         if (word[word.length()-1] == ':'){
         }
         else if (word[0] == '#'){

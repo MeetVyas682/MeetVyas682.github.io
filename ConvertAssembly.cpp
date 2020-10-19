@@ -1,3 +1,5 @@
+// Now in this code if we are aaccessing the function then we wont have name but instead we will print the 
+// address in binx.asm file
 #include <bits/stdc++.h>
 #include <iostream>
 #include <vector>
@@ -216,13 +218,13 @@ int main (void){
     cout << output_file << endl ;
     fout.open(output_file.c_str());
     if (fin.is_open())
-        cout << "Yes" << endl;
+        cout << "fin is open" << endl;
 
     else
-        cout << "No" << endl;
+        cout << "fin is not open" << endl;
 
     if (fout.is_open())
-        cout << "fout yes" << endl ;
+        cout << "fout is in" << output_file << endl ;
 
     else
         cout << "No fout" ;
