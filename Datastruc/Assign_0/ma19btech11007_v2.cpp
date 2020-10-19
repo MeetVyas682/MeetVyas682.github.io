@@ -3,7 +3,7 @@
 using namespace std;
 
 void compare(string A, string B){
-  // If B > A then 1 otherwise 0
+  // If A>B then 0 otherwise 1
   int i = 0 ;
   for (;i<6;i++){
     if (((int) A.at(i)) > ((int)B.at(i)) ){
