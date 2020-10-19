@@ -1,3 +1,13 @@
+// To comment in asm file, it has to be of type "# comment "
+// Follow the commenting syntax.
+// For negative number binary representation, we using singned magnitude method
+// i.e left most bit is 1 if negative and 0 if positve.
+
+// We first scan the .asm file to find the functions in the file then we push the function in vector
+// Now if the function is at xth position then we change x to binary code of desired bits and that will be the function address
+
+
+
 #include <bits/stdc++.h>
 #include <iostream>
 #include <vector>
