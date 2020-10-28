@@ -183,11 +183,12 @@ void succ_find (struct bst_node * Head, char str1[]){
                 }
                 else {
                     printf("%s\n", itr_2->str) ;
+                    free(temp_node) ;
                     return ;
                 }
             }
         }
-        free(temp_node) ;
+        
     }
 
 
@@ -266,12 +267,13 @@ void pred_find (struct bst_node * Head, char str1[]){
                 }
                 else {
                     printf("%s\n", itr_2->str) ;
+                    free(temp_node) ;
                     return ;
                 }
             }
         }
 
-        free(temp_node) ;
+        
     }
 }
 
@@ -315,8 +317,12 @@ int main(){
     
   }
 
+  free(firstLine) ;
+  firstLine = NULL ;
+
   // Main input handler to serve requests.
   while(getline(&inputLine, &length, stdin) != -1){
+    char * temp = inputLine ;
     sscanf(inputLine,"%c %s",&choice, numberPlate);
     if(choice=='S'){
       
@@ -338,9 +344,10 @@ int main(){
         // successor
         succ_find(Head,numberPlate) ;
     }
-    free(inputLine); inputLine=NULL;
+    free(temp); inputLine=NULL;
     length=0;
   }
+  free (inputLine) ;
 
   Head = deall(Head) ;
   return 0;
