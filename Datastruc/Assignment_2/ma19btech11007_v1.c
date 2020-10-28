@@ -110,23 +110,23 @@ void path_print (struct bst_node * Head, char str1[]){              // If the st
     }
 }
 
-void succ_find (struct bst_node * Head, char str1[]){
-    struct bst_node * itr = Head ;
+void succ_find (struct bst_node * Head, char str1[]){                       // finding succesor
+    struct bst_node * itr = Head ;                                          // itr to iterate
     while (1){
-        if (itr == NULL){
+        if (itr == NULL){                                                   // If Head is NULL then it prints 0
             printf ("0\n") ;
             return ;
         }
             
-        else if (compare((itr->str),str1) == 1){
-            if (itr->left == NULL){
-                break ;
+        else if (compare((itr->str),str1) == 1){                            
+            if (itr->left == NULL){                                         // Now if the node should be on left but it does not exist
+                break ;                                                     // Then we store our hypothetical node's parent node in itr
             }
             itr = itr->left ;
         }
         else if (compare((itr->str),str1) == 2){
-            if (itr->right == NULL){
-                break ;
+            if (itr->right == NULL){                                        // Now if the node should be on right but it does not exist
+                break ;                                                     // Then we store our hypothetical node's parent node in itr
             }
             itr = itr->right ;
         }
@@ -135,7 +135,7 @@ void succ_find (struct bst_node * Head, char str1[]){
         }
     }
 
-    if (compare(itr->str,str1) == 0 && itr->right != NULL){
+    if (compare(itr->str,str1) == 0 && itr->right != NULL){               // Standard procedure to find succesor when it has right child
         itr = itr->right ;
         while (itr->left != NULL){
             itr = itr->left ;
@@ -144,7 +144,7 @@ void succ_find (struct bst_node * Head, char str1[]){
         return ;
     }
 
-    else if (compare(itr->str,str1) == 0){
+    else if (compare(itr->str,str1) == 0){                               // Case when it does not have right child
         struct bst_node * itr_2 = itr ;
         while (1){
             itr_2 = itr_2->parent ;
@@ -164,14 +164,14 @@ void succ_find (struct bst_node * Head, char str1[]){
         }
     }
 
-    else {
-        struct bst_node * temp_node ;
-        temp_node = create_node(str1) ;
+    else {                                                      // case when the node does not exist
+        struct bst_node * temp_node ;                           // We create a hypothecial temp node of our numberplate 
+        temp_node = create_node(str1) ;                         // and only link it to parent 
         temp_node->parent = itr ;
         struct bst_node * itr_2 = temp_node ;
         itr = temp_node ;
 
-        while (1){
+        while (1){                                             // Now it is case 2 
             itr_2 = itr_2->parent ;
             if (itr_2 == NULL){
                 printf("0\n");
@@ -183,7 +183,7 @@ void succ_find (struct bst_node * Head, char str1[]){
                 }
                 else {
                     printf("%s\n", itr_2->str) ;
-                    free(temp_node) ;
+                    free(temp_node) ;                           // we delete temp node
                     return ;
                 }
             }
@@ -196,22 +196,22 @@ void succ_find (struct bst_node * Head, char str1[]){
 
 }
 
-void pred_find (struct bst_node * Head, char str1[]){
-    struct bst_node * itr = Head ;
+void pred_find (struct bst_node * Head, char str1[]){               // predecessor finding
+    struct bst_node * itr = Head ;                                  // itr to iterate
     while (1){
-        if (itr == NULL){
+        if (itr == NULL){                                           // If Head is NULL then it prints 0
             printf ("0\n") ;
             return ;
         }
             
-        else if (compare((itr->str),str1) == 1){
-            if (itr->left == NULL){
-                break ;
+        else if (compare((itr->str),str1) == 1){                    // Now if the node should be on left but it does not exist
+            if (itr->left == NULL){                                 // Then we store our hypothetical node's parent node in itr
+                break ;                         
             }
             itr = itr->left ;
         }
-        else if (compare((itr->str),str1) == 2){
-            if (itr->right == NULL){
+        else if (compare((itr->str),str1) == 2){                    // Now if the node should be on right but it does not exist
+            if (itr->right == NULL){                                // Then we store our hypothetical node's parent node in itr 
                 break ;
             }
             itr = itr->right ;
@@ -221,7 +221,7 @@ void pred_find (struct bst_node * Head, char str1[]){
         }
     }
 
-    if (compare(itr->str,str1) == 0 && itr->left != NULL){
+    if (compare(itr->str,str1) == 0 && itr->left != NULL){          // Standard procedure to find succesor when it has left child
         itr = itr->left ;
         while (itr->right != NULL){
             itr = itr->right ;
@@ -229,7 +229,7 @@ void pred_find (struct bst_node * Head, char str1[]){
         printf("%s\n",(itr->str));
         return ;
     }
-    else if (compare(itr->str,str1) == 0){
+    else if (compare(itr->str,str1) == 0){                          // Case when it does not have left child
         struct bst_node * itr_2 = itr ;
         while (1){
             itr_2 = itr_2->parent ;
@@ -248,14 +248,14 @@ void pred_find (struct bst_node * Head, char str1[]){
             }
         }
     }
-    else {
-        struct bst_node * temp_node ;
-        temp_node = create_node(str1) ;
+    else {                                                  // case when the node does not exist
+        struct bst_node * temp_node ;                       // We create a hypothecial temp node of our numberplate 
+        temp_node = create_node(str1) ;                      // and only link it to parent 
         temp_node->parent = itr ;
         struct bst_node * itr_2 = temp_node ;
         itr = temp_node ;
 
-        while (1){
+        while (1){                                          // Now it is case 2 
             itr_2 = itr_2->parent ;
             if (itr_2 == NULL){
                 printf("0\n");
@@ -267,7 +267,7 @@ void pred_find (struct bst_node * Head, char str1[]){
                 }
                 else {
                     printf("%s\n", itr_2->str) ;
-                    free(temp_node) ;
+                    free(temp_node) ;                       // we delete temp node
                     return ;
                 }
             }
