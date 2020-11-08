@@ -74,11 +74,11 @@ struct bst_node * insert_node (char str1[], struct bst_node * Head){            
     
 }
 
-int existe (struct bst_node * Head, char str1[]){                       // Checking if the string exists...
+struct bst_node * existe (struct bst_node * Head, char str1[]){                       // Checking if the string exists...
     struct bst_node * itr = Head ;
     while (1){
         if (itr == NULL)
-            return 0 ;
+            return itr ;
         else if (compare((itr->str),str1) == 1){
             itr = itr->left ;
         }
@@ -86,11 +86,25 @@ int existe (struct bst_node * Head, char str1[]){                       // Check
             itr = itr->right ;
         }
         else{
-            return 1 ;
+            return itr ;
         }
     }
 }
+void Inorder_print (struct bst_node * Head) {
+    if (Head == NULL)
+        return ;
+    Inorder_print(Head->left) ;
+    printf("%s ", Head->str) ;
+    Inorder_print(Head->right) ;
+}
 
+void Post_order(struct bst_node * Head ){
+    if (Head == NULL)
+        return ;
+    Post_order(Head->left) ;
+    Post_order(Head->right) ;
+    printf("%s ", Head->str) ;
+}
 void path_print (struct bst_node * Head, char str1[]){              // If the string exists then printing the L R path
     struct bst_node * itr = Head ;
     while (1){
@@ -110,12 +124,12 @@ void path_print (struct bst_node * Head, char str1[]){              // If the st
     }
 }
 
-void succ_find (struct bst_node * Head, char str1[]){                       // finding succesor
+struct bst_node * succ_find (struct bst_node * Head, char str1[]){                       // finding succesor
     struct bst_node * itr = Head ;                                          // itr to iterate
     while (1){
         if (itr == NULL){                                                   // If Head is NULL then it prints 0
-            printf ("0\n") ;
-            return ;
+            // printf ("0\n") ;
+            return itr;
         }
             
         else if (compare((itr->str),str1) == 1){                            
@@ -140,8 +154,8 @@ void succ_find (struct bst_node * Head, char str1[]){                       // f
         while (itr->left != NULL){
             itr = itr->left ;
         }
-        printf("%s\n",(itr->str));
-        return ;
+        // printf("%s\n",(itr->str));
+        return itr;
     }
 
     else if (compare(itr->str,str1) == 0){                               // Case when it does not have right child
@@ -149,16 +163,16 @@ void succ_find (struct bst_node * Head, char str1[]){                       // f
         while (1){
             itr_2 = itr_2->parent ;
             if (itr_2 == NULL){
-                printf("0\n");
-                return ;
+                // printf("0\n");
+                return  NULL;
             }
             else {
                 if (compare(itr_2->str,itr->str)==2){
                     itr = itr_2 ;
                 }
                 else {
-                    printf("%s\n", itr_2->str) ;
-                    return ;
+                    // printf("%s\n", itr_2->str) ;
+                    return itr_2 ;
                 }
             }
         }
@@ -174,17 +188,17 @@ void succ_find (struct bst_node * Head, char str1[]){                       // f
         while (1){                                             // Now it is case 2 
             itr_2 = itr_2->parent ;
             if (itr_2 == NULL){
-                printf("0\n");
-                return ;
+                // printf("0\n");
+                return NULL ;
             }
             else {
                 if (compare(itr_2->str,itr->str)==2){
                     itr = itr_2 ;
                 }
                 else {
-                    printf("%s\n", itr_2->str) ;
+                    // printf("%s\n", itr_2->str) ;
                     free(temp_node) ;                           // we delete temp node
-                    return ;
+                    return itr_2;
                 }
             }
         }
@@ -281,10 +295,10 @@ int num_child (struct bst_node * Head){
         return -1 ;
     int ans = 0 ;
     if (Head->left != NULL){
-        ans = ans + num_child(Head->left) +1;
+        ans++;
     }
     if (Head->right != NULL)
-        ans = ans + num_child(Head->right) +1 ;
+        ans++;
     
     return ans ;
 }
@@ -340,29 +354,31 @@ struct bst_node * splice (struct bst_node * Head, struct bst_node * current_node
                 return Head ;
             }
         }
+        struct bst_node * pare_cur = current_node->parent ;
+        if (compare(pare_cur->str,current_node->str) == 2){
+                pare_cur->right =NULL ;
+                
+                free(current_node) ;
+                return Head ;
+            }
+        else {
+            pare_cur->left = NULL ; 
+            
+            free(current_node) ;
+            return Head ;
+        }
     }
 }
 
-struct bst_node * delete_node (struct bst_node * Head, char str1[]){    // we will call delete when node exists
+struct bst_node * delete_node (struct bst_node * Head, struct bst_node * t0_del){    // we will call delete when node exists
     if (Head == NULL)
         return NULL ;
 
-    struct bst_node * itr = Head ;
-    while (1){
-        if (compare((itr->str),str1) == 1){
-            itr = itr->left ;
-        }
-        else if (compare((itr->str),str1) == 2){
-            itr = itr->right ;
-        }
-        else{
-            break ;
-        }
-    }
+    struct bst_node * itr = t0_del ;
 
     if (itr->left == NULL || itr->right == NULL){
         printf ("%d ",num_child(itr)) ;
-        if (num_child == 0)
+        if (num_child(itr) == 0)
             printf("\n") ;
         else {
             if (itr->left != NULL){
@@ -378,6 +394,22 @@ struct bst_node * delete_node (struct bst_node * Head, char str1[]){    // we wi
     }
     else {
         printf ("%d ",num_child(itr)) ;
+        struct bst_node * add_succ = succ_find(Head,itr->str) ;
+        printf("%s\n",add_succ->str) ;
+        // copy string of add_suc to itr
+        char temp_string[7] ;
+
+        for (int i = 0 ; i<6 ; i++){
+            temp_string[i] = (add_succ->str)[i] ;
+        }
+        // temp_string[6] = '\0' ;
+        // printf("%s\n",itr->str) ;
+        Head = splice(Head,add_succ) ;  // we can just splice since the succesor has only one child at max
+        for (int i = 0 ; i<6 ; i++){
+            (itr->str)[i] = temp_string[i];
+        }
+        // (itr->str)[6] = '\0' ;
+        return Head ;
         
     }
     
@@ -434,7 +466,7 @@ int main(){
     if(choice=='S'){
       
       // Call your BST Search function here with argument: numberPlate
-        if (existe(Head,numberPlate) == 0)
+        if (existe(Head,numberPlate) == NULL)
             printf("0\n") ;
         else {
             printf("1 ") ;
@@ -449,19 +481,33 @@ int main(){
     }
     else if (choice== '>'){
         // successor
-        succ_find(Head,numberPlate) ;
+        struct bst_node * add_suc = succ_find(Head,numberPlate) ;
+        if (add_suc == NULL)
+            printf("0\n") ;
+        else 
+            printf("%s\n",add_suc->str) ;
     }
     else if (choice == '+'){
-        Head = insert_node(numberPlate,Head) ;
+        if (existe(Head,numberPlate) == NULL)
+            Head = insert_node(numberPlate,Head) ;
     }
     else if (choice == '-'){
         //delete
+        if (existe(Head,numberPlate) == NULL)
+            printf("-1\n") ;
+        else {
+            Head = delete_node(Head,existe(Head,numberPlate)) ;
+        }
     }
     else if (choice=='I'){
         //Inorder
+        Inorder_print(Head) ;
+        printf("\n");
     }
     else if (choice=='P'){
         //postorder 
+        Post_order(Head) ;
+        printf("\n");
     }
     free(temp); inputLine=NULL;
     length=0;

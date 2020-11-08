@@ -295,10 +295,10 @@ int num_child (struct bst_node * Head){
         return -1 ;
     int ans = 0 ;
     if (Head->left != NULL){
-        ans = ans + num_child(Head->left) +1;
+        ans++;
     }
     if (Head->right != NULL)
-        ans = ans + num_child(Head->right) +1 ;
+        ans++;
     
     return ans ;
 }
