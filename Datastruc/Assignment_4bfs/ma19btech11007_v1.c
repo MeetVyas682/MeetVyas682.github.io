@@ -67,6 +67,90 @@ void debug_graph_printer (struct data_node * arr[],int N){
     }
 }
 
+
+// Creating a queue
+struct node_int {
+    int value ;
+    struct node_int * nxtPtr ;
+} ;
+
+struct queue {
+    struct node_int * Head ;
+    struct node_int * tail ;
+};
+
+void enque (int value, struct queue * Q1){
+
+    struct node_int * newNode ;
+    newNode = (struct node_int *)malloc(sizeof(struct node_int)) ;
+    newNode->nxtPtr = NULL ;
+    newNode->value = value ;
+
+    if (Q1->Head == NULL){
+        Q1->Head = newNode ;
+        Q1->tail = newNode ;
+    }
+    else{
+        (Q1->tail)->nxtPtr = newNode;
+        Q1->tail = (Q1->tail)->nxtPtr ;
+    }
+
+    return;
+}
+
+void dequeue (struct queue * Q1){
+    if (Q1->Head == NULL)
+        return ;
+    else {
+        if (Q1->Head == Q1->tail){
+            Q1->tail = NULL ;
+            free(Q1->Head);
+            Q1->Head = NULL ;
+        }
+        else {
+            struct node_int * temp = Q1->Head ;
+            Q1->Head = Q1->Head->nxtPtr ;
+            free(temp);
+        }
+    }
+
+    return ;
+}
+
+void BFS (struct data_node * arr[],int vertex , int numberOfVertex){
+    struct queue * Q1 ;
+    Q1 = (struct queue *)malloc(sizeof(struct queue)) ;
+    Q1->Head = NULL ;
+    Q1->tail = NULL ;
+
+    int visited[numberOfVertex] ;
+    for (int i = 0 ; i<numberOfVertex; i++)
+        visited[i] = 0 ;
+
+    enque(vertex,Q1) ;
+    visited[vertex] = 1 ;
+
+
+    while (Q1->Head != NULL){
+        int top = Q1->Head->value ;
+        printf("%d ", top) ;
+        dequeue(Q1) ;
+        struct data_node * itr = arr[top] ;
+        while (itr!=NULL){
+            if (visited[itr->vertice_id] == 0){
+                enque(itr->vertice_id,Q1) ;
+                visited[itr->vertice_id] = 1;
+
+            }
+            itr = itr->nxt_ptr ;
+        }
+    }
+
+    printf("\n") ;
+    
+    return ;
+}
+
 int main(){
   char choice;
   int numberOfVertices, startVertex, endVertex;
@@ -94,11 +178,12 @@ int main(){
 	 
 	 if(delimiter == '\n') break; // Detecting end of line.
        }
-       debug_graph_printer(array,numberOfVertices) ;
+    //    debug_graph_printer(array,numberOfVertices) ;
      }
      else if(choice == 'B'){
        scanf("%d",&startVertex);
        // Call BFS on your graph starting from startVertex here.
+       BFS(array,startVertex,numberOfVertices) ;
      }
    }
 
