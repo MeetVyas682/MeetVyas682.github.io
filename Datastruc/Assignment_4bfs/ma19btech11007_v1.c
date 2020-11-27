@@ -147,7 +147,21 @@ void BFS (struct data_node * arr[],int vertex , int numberOfVertex){
     }
 
     printf("\n") ;
-    
+    free(Q1) ;
+    return ;
+}
+
+void free_the_graph(struct data_node * arr[], int numberofVertices){
+    for (int i = 0 ; i<numberofVertices;i++){
+        struct data_node * itr = arr[i] ;
+        struct data_node * freeer = itr ;
+        while (itr != NULL){
+            freeer = itr ;
+            itr = itr->nxt_ptr ;
+            free(freeer) ;
+        }
+        // arr[i] = NULL ;
+    }
     return ;
 }
 
@@ -187,6 +201,8 @@ int main(){
      }
    }
 
+    free_the_graph(array,numberOfVertices) ;
+    // debug_graph_printer(array,numberOfVertices) ;
     
 
 
