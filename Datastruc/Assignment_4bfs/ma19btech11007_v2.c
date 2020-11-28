@@ -166,7 +166,7 @@ void free_the_graph(struct data_node * arr[], int numberofVertices){
 }
 
 
-// struct data_node * array[10000000];  
+struct data_node * array[10000000];  
 
 int main(){
   char choice;
@@ -176,7 +176,7 @@ int main(){
   scanf("%d",&numberOfVertices);
   // Create your adjacency list's array of head vertices here.
     // struct data_node * array[numberOfVertices];                             // Creating the array of Heads
-    struct data_node ** array = malloc(numberOfVertices*sizeof(struct data_node *)) ; 
+    // struct data_node ** array = malloc(numberOfVertices*sizeof(struct data_node *)) ; 
     for (int i = 0 ; i<numberOfVertices;i++)
         array[i] = Create_data_node(i) ;                                    // Creates Head having value i same as that of vertice
 
